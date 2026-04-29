@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yoga Certificate Generator</title>
+
+<style>
+body{
+    margin:0;
+    padding:0;
+    text-align:center;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#dcfce7,#bbf7d0,#86efac);
+}
+.container{
+    margin-top:60px;
+}
+h2{
+    color:#14532d;
+    font-size:34px;
+}
+input{
+    padding:12px;
+    width:300px;
+    font-size:16px;
+    border-radius:8px;
+    border:1px solid #16a34a;
+}
+button{
+    margin-top:15px;
+    padding:12px 28px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    background:#15803d;
+    color:white;
+    cursor:pointer;
+}
+button:hover{
+    background:#166534;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>? Get Your Yoga Certificate</h2>
+
+    <input type="text" id="name" placeholder="Enter your name">
+    <br>
+    <button onclick="generate()">Download Certificate</button>
+</div>
+
+<canvas id="canvas" width="1400" height="1000" style="display:none;"></canvas>
+
+<script>
+
+const expiry = new Date("2026-04-30T23:59:59");
+const now = new Date();
+
+if(now > expiry){
+    document.body.innerHTML = "<h1 style='margin-top:100px;color:red;'>? Link Expired</h1>";
+}
+
+function generate(){
+
+    const name = document.getElementById("name").value.trim();
+
+    if(name==""){
+        alert("Please enter your name");
+        return;
+    }
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Main Background
+    let bg = ctx.createLinearGradient(0,0,1400,1000);
+    bg.addColorStop(0,"#ecfdf5");
+    bg.addColorStop(1,"#bbf7d0");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,1400,1000);
+
+    // Decorative Outer Border
+    ctx.lineWidth = 18;
+    ctx.strokeStyle = "#166534";
+    ctx.strokeRect(25,25,1350,950);
+
+    // Inner Border
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#22c55e";
+    ctx.strokeRect(55,55,1290,890);
+
+    // Top Lotus Circle
+    ctx.beginPath();
+    ctx.arc(700,110,55,0,Math.PI*2);
+    ctx.fillStyle = "#16a34a";
+    ctx.fill();
+
+    ctx.fillStyle = "white";
+    ctx.font = "50px serif";
+    ctx.textAlign = "center";
+    ctx.fillText("?",700,127);
+
+    // Title
+    ctx.fillStyle = "#14532d";
+    ctx.font = "bold 60px Georgia";
+    ctx.fillText("CERTIFICATE",700,240);
+
+    ctx.font = "32px Georgia";
+    ctx.fillText("OF YOGA ACHIEVEMENT",700,290);
+
+    // Subtitle
+    ctx.font = "28px Arial";
+    ctx.fillStyle = "#166534";
+    ctx.fillText("This certificate is proudly presented to",700,380);
+
+    // Name
+    ctx.font = "bold 64px cursive";
+    ctx.fillStyle = "#052e16";
+    ctx.fillText(name,700,490);
+
+    // Underline Name
+    ctx.beginPath();
+    ctx.moveTo(350,520);
+    ctx.lineTo(1050,520);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#166534";
+    ctx.stroke();
+
+    // Description
+    ctx.font = "28px Arial";
+    ctx.fillStyle = "#14532d";
+    ctx.fillText("For dedication, discipline and successful completion",700,600);
+    ctx.fillText("of the Yoga Wellness Session",700,645);
+
+    // Yoga Silhouette
+    ctx.font = "90px serif";
+    ctx.fillText("?",700,760);
+
+    // Footer Left Signature
+    ctx.beginPath();
+    ctx.moveTo(180,860);
+    ctx.lineTo(430,860);
+    ctx.stroke();
+
+    ctx.font = "24px Arial";
+    ctx.fillText("Instructor Signature",305,900);
+
+    // Footer Right Date
+    ctx.beginPath();
+    ctx.moveTo(970,860);
+    ctx.lineTo(1220,860);
+    ctx.stroke();
+
+    const date = new Date().toLocaleDateString();
+
+    ctx.fillText(date,1095,900);
+
+    // Footer Quote
+    ctx.font = "24px italic Georgia";
+    ctx.fillStyle = "#15803d";
+    ctx.fillText("Stay Healthy o Stay Peaceful o Stay Mindful",700,950);
+
+    // Download
+    const link = document.createElement("a");
+    link.download = "yoga-certificate.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+}
+
+</script>
+
+</body>
+</html>
